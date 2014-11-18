@@ -13,5 +13,5 @@ Package "view":
 - ChoixFichier.java
 
 Package "classe":
-- medecin
-- specialite
+- medecin.java
+- specialite.java
