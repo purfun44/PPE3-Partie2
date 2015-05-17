@@ -1,7 +1,7 @@
-package classe;
+package model;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import controleur.AccesBD;
 
 public class medecin {
 	private int identifiant;
@@ -9,13 +9,13 @@ public class medecin {
 	private String prenom;
 	private String adresse;
 	private String commune;
-	private int codePostal;
-	private int telephone;
-	private GregorianCalendar dateInstall;
+	private String codePostal;
+	private String telephone;
+	private String dateInstall;
+	private int idSpecialite;
 	public static ArrayList<medecin> tousLesMedecins=new ArrayList<medecin>();
 	
-	public medecin(int identifiant,String nom,String prenom,String adresse,String commune,int codePostal,int telephone,GregorianCalendar dateInstall){
-		this.identifiant=identifiant;
+	public medecin(String nom,String prenom,String adresse,String commune,String codePostal,String telephone,String dateInstall,int idSpecialite){
 		this.nom=nom;
 		this.prenom=prenom;
 		this.adresse=adresse;
@@ -23,6 +23,20 @@ public class medecin {
 		this.codePostal=codePostal;
 		this.telephone=telephone;
 		this.dateInstall=dateInstall;
+		this.idSpecialite=idSpecialite;
+		
+		try {
+			String [][] tableau = AccesBD.ajoutMedecin(nom, prenom, adresse, commune, codePostal, telephone, dateInstall, idSpecialite);
+			for (int i = 0; i < tableau.length; i++) {
+				String identifiant = tableau[0][0];
+				this.identifiant = Integer.parseInt(identifiant);
+				}
+			}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		
 		tousLesMedecins.add(this);
 	}
 	
@@ -46,16 +60,19 @@ public class medecin {
 		return commune;
 	}
 	
-	public int getCodePostal(){
+	public String getCodePostal(){
 		return codePostal;
 	}
 	
-	public int getTelephone(){
+	public String getTelephone(){
 		return telephone;
 	}
 	
-	public GregorianCalendar getDateInstall(){
+	public String getDateInstall(){
 		return dateInstall;
 	}
 	
+	public int getIdSpecialite(){
+		return idSpecialite;
+	}
 }
