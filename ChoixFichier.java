@@ -1,39 +1,32 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import controleur.Ctrl;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ChoixFichier extends JFrame {
-
-	private JPanel contentPane;
+public class ChoixFichier extends View {
 
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChoixFichier frame = new ChoixFichier();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JPanel panel;
+	private JLabel lblSlectionnerLeFichier;
+	private JButton btnParcourir;
+	private JButton btnRetour;
+	
 	/**
 	 * Create the frame.
 	 */
-	public ChoixFichier() {
+	public ChoixFichier(Ctrl ctrl) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -41,25 +34,35 @@ public class ChoixFichier extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		SpringLayout sl_panel = new SpringLayout();
 		panel.setLayout(sl_panel);
 		
-		JLabel lblSlectionnerLeFichier = new JLabel("S\u00E9lectionner le fichier de donn\u00E9es:");
+		lblSlectionnerLeFichier = new JLabel("S\u00E9lectionner le fichier de donn\u00E9es:");
 		sl_panel.putConstraint(SpringLayout.NORTH, lblSlectionnerLeFichier, 40, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, lblSlectionnerLeFichier, 65, SpringLayout.WEST, panel);
 		panel.add(lblSlectionnerLeFichier);
 		
-		JButton btnParcourir = new JButton("Parcourir...");
+		btnParcourir = new JButton("Parcourir...");
+		btnParcourir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnParcourir, 18, SpringLayout.SOUTH, lblSlectionnerLeFichier);
 		sl_panel.putConstraint(SpringLayout.WEST, btnParcourir, 150, SpringLayout.WEST, panel);
 		panel.add(btnParcourir);
 		
-		JButton btnValider = new JButton("Valider");
-		sl_panel.putConstraint(SpringLayout.NORTH, btnValider, 55, SpringLayout.SOUTH, btnParcourir);
-		sl_panel.putConstraint(SpringLayout.WEST, btnValider, 163, SpringLayout.WEST, panel);
-		panel.add(btnValider);
+		btnRetour = new JButton("Retour");
+		sl_panel.putConstraint(SpringLayout.SOUTH, btnRetour, -10, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, btnRetour, -10, SpringLayout.EAST, panel);
+		panel.add(btnRetour);
+	}
+	public void assignListener(Ctrl ctrl){
+		this.btnParcourir.setActionCommand("choix_fichier_parcourir");
+		this.btnParcourir.addActionListener(ctrl);
+		this.btnRetour.setActionCommand("choix_fichier_retour");
+		this.btnRetour.addActionListener(ctrl);
 	}
 
 }
