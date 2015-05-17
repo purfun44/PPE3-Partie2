@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,9 +8,17 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 
-public class ChoixActionsModifier extends JFrame {
+import controleur.AccesBD;
+import controleur.Ctrl;
 
+public class ChoixActionsModifier extends View {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -23,27 +29,24 @@ public class ChoixActionsModifier extends JFrame {
 	private JTextField textField_6;
 	private JLabel lblChoisirUnMdecin;
 	private JComboBox comboBox_1;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChoixActionsModifier frame = new ChoixActionsModifier();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPanel panel;
+	private JComboBox comboBox;
+	private JLabel lblRemplirLesChamps;
+	private JLabel lblNom; 
+	private JLabel lblPrnom;
+	private JLabel lblAdresse;
+	private JLabel lblCommune;
+	private JLabel lblCodePostal;
+	private JLabel lblTlphone;
+	private JLabel lblDateDinstallation;
+	private JLabel lblSpcialit;
+	private JButton btnValider;
+	private JButton btnRetour;
 
 	/**
 	 * Create the frame.
 	 */
-	public ChoixActionsModifier() {
+	public ChoixActionsModifier(Ctrl ctrl) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,7 +54,7 @@ public class ChoixActionsModifier extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		SpringLayout sl_panel = new SpringLayout();
 		panel.setLayout(sl_panel);
@@ -101,14 +104,19 @@ public class ChoixActionsModifier extends JFrame {
 		textField_6.setColumns(10);
 		panel.add(textField_6);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		sl_panel.putConstraint(SpringLayout.NORTH, comboBox, 0, SpringLayout.SOUTH, textField);
-		sl_panel.putConstraint(SpringLayout.WEST, comboBox, 200, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, textField);
 		sl_panel.putConstraint(SpringLayout.SOUTH, comboBox, -16, SpringLayout.SOUTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, comboBox, 0, SpringLayout.EAST, textField);
 		panel.add(comboBox);
+		//Remplir la JComboBox (libelle specialite)
+		String[][] listeLibelleSpecialite=AccesBD.selectMedecins("specialite");
+		for (int j = 0; j < listeLibelleSpecialite.length; j++) {
+			comboBox.addItem(listeLibelleSpecialite[j][1]);
+			}
 		
-		JLabel lblRemplirLesChamps = new JLabel("Remplir les champs \u00E0 modifier:");
+		lblRemplirLesChamps = new JLabel("Remplir les champs \u00E0 modifier:");
 		sl_panel.putConstraint(SpringLayout.NORTH, lblRemplirLesChamps, 31, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.WEST, lblRemplirLesChamps, 10, SpringLayout.WEST, panel);
 		panel.add(lblRemplirLesChamps);
@@ -123,5 +131,86 @@ public class ChoixActionsModifier extends JFrame {
 		sl_panel.putConstraint(SpringLayout.WEST, comboBox_1, 14, SpringLayout.EAST, lblChoisirUnMdecin);
 		sl_panel.putConstraint(SpringLayout.EAST, comboBox_1, 0, SpringLayout.EAST, textField);
 		panel.add(comboBox_1);
+		//Remplir la JComboBox (nom mécecin)
+		String[][] listeNomMedecin=AccesBD.selectMedecins("medecin");
+		for (int j = 0; j < listeNomMedecin.length; j++) {
+			comboBox_1.addItem(listeNomMedecin[j][1]);
+			}
+		
+		lblNom = new JLabel("Nom:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblNom, 72, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblNom, 0, SpringLayout.SOUTH, textField_1);
+		panel.add(lblNom);
+		
+		lblPrnom = new JLabel("Pr\u00E9nom:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblPrnom, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblPrnom, 0, SpringLayout.SOUTH, textField_2);
+		panel.add(lblPrnom);
+		
+		lblAdresse = new JLabel("Adresse:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblAdresse, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblAdresse, 0, SpringLayout.SOUTH, textField_3);
+		panel.add(lblAdresse);
+		
+		lblCommune = new JLabel("Commune:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblCommune, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblCommune, 0, SpringLayout.SOUTH, textField_6);
+		panel.add(lblCommune);
+		
+		lblCodePostal = new JLabel("Code postal:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblCodePostal, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblCodePostal, 0, SpringLayout.SOUTH, textField_4);
+		panel.add(lblCodePostal);
+		
+		lblTlphone = new JLabel("T\u00E9l\u00E9phone:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblTlphone, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblTlphone, 0, SpringLayout.SOUTH, textField_5);
+		panel.add(lblTlphone);
+		
+		lblDateDinstallation = new JLabel("Date d'installation:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblDateDinstallation, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblDateDinstallation, 0, SpringLayout.SOUTH, textField);
+		panel.add(lblDateDinstallation);
+		
+		lblSpcialit = new JLabel("Sp\u00E9cialit\u00E9:");
+		sl_panel.putConstraint(SpringLayout.WEST, lblSpcialit, 0, SpringLayout.WEST, lblNom);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblSpcialit, -16, SpringLayout.SOUTH, panel);
+		panel.add(lblSpcialit);
+		
+		btnValider = new JButton("Valider");
+		sl_panel.putConstraint(SpringLayout.NORTH, btnValider, -1, SpringLayout.NORTH, textField);
+		sl_panel.putConstraint(SpringLayout.EAST, btnValider, -10, SpringLayout.EAST, panel);
+		panel.add(btnValider);
+		
+		btnRetour = new JButton("Retour");
+		sl_panel.putConstraint(SpringLayout.NORTH, btnRetour, 0, SpringLayout.SOUTH, btnValider);
+		sl_panel.putConstraint(SpringLayout.EAST, btnRetour, 0, SpringLayout.EAST, btnValider);
+		panel.add(btnRetour);
+	}
+	
+	/*
+	public void remplir_Jcomb() {
+		String req= "SELECT Nom_Champ1,Nom_Champ2 FROM  Nom_Table  ORDER BY  Nom_Champ1"; 
+		Statement stmt;
+	    try
+	    	{
+			stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(req);
+			while(res.next()){
+			jComboName.addItem(res.getString(indexe de la colonne));     
+//le nom du jComboBox est jComboName et  <indexe de la colonne > est l'indexe de la colonne dont vous voulez afficher dans le combobox ,elle peut prendre l'une des valeurs 1,2...
+				}
+				res.close();
+			}
+	    catch (SQLException e)
+	    	{
+			e.printStackTrace();
+			}
+		}
+	*/
+	
+	public void assignListener(Ctrl ctrl){
+		this.btnRetour.setActionCommand("choix_actions_modifier_retour");
+		this.btnRetour.addActionListener(ctrl);
 	}
 }
