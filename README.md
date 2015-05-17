@@ -11,7 +11,12 @@ Package "view":
 - ChoixActionsModifier.java
 - ChoixActionsSupprimer.java
 - ChoixFichier.java
+- View.java
 
 Package "classe":
 - medecin.java
 - specialite.java
+
+Package "controleur":
+- Ctrl
+- AccesBD
